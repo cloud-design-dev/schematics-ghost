@@ -60,20 +60,25 @@ echo "ghost-mgr:${ghost_mgr_pass}" | chpasswd
 ## Write generated passwords to a file for future reference
 echo -e "root_mysql_pass=${root_mysql_pass}\nghost_mysql_pass=${ghost_mysql_pass}\nghost_mgr_pass=${ghost_mgr_pass}" | tee -a /root/.ghost-installer
 
-cat >> /root/.bashrc <<"EOM"
-
+cat >> /etc/update-motd.d/99-ghost-install <<"EOM"
 export TERM=xterm-256color
-
-# Run bootstrap during first login
 
 echo "
 -------------------------------------------------------------------------------
+Relevant auto-generated passwords from the Ghost install have been saved to: 
 
-Your ghost instance should be up and running. Relevant auto-generated passwords have been saved to: 
+    $(tput setaf 6)/root/.ghost-installer$(tput sgr0)
 
-    $(tput setaf 6)root/.ghost-installer$(tput sgr0)
+Please switch to the $(tput setaf 6)ghost-mgr$(tput sgr0) user to manage Ghost via the CLI:
 
--------------------------------------------------------------------------------
+    $(tput setaf 3)sudo -i -u ghost-mgr$(tput sgr0)
 
+For an overview of available Ghost CLI commands, run:
+
+    $(tput setaf 3)ghost help$(tput sgr0)
+------------------------------------------------------------------------------
 "
+
 EOM
+
+chmod +x /etc/update-motd.d/99-ghost-install

@@ -17,6 +17,14 @@ resource "ibm_compute_vm_instance" "ghost" {
   ssh_key_ids          = ["${data.ibm_compute_ssh_key.deploymentKey.id}"]
 }
 
+resource "ibm_cis_dns_record" "example" {
+  cis_id    = "${data.ibm_cis.instance.id}"
+  domain_id = "${data.ibm_cis_domain.cis_instance_domain.id}"
+  name      = "${var.hostname}"
+  content   = "${ibm_compute_vm_instance.node.ipv4_address}"
+  type      = "A"
+}
+
 output "Ghost URL" {
   value = "Please visit http://${ibm_compute_vm_instance.ghost.ipv4_address}/ghost to complete your set up."
 }
