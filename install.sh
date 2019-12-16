@@ -19,6 +19,7 @@ DEBIAN_FRONTEND=noninteractive apt-get install -y nodejs
 ## Set passwords
 root_mysql_pass=$(openssl rand -hex 24)
 ghost_mysql_pass=$(openssl rand -hex 24)
+ghost_mgr_pass=$(openssl rand -hex 24)
 
 ## Create Ghost database
 mysqladmin -u root -h localhost create ghost_production 2>/dev/null
@@ -52,3 +53,27 @@ EOM"
 ## Remove default Nginx site and restart service
 rm -f /etc/nginx/sites-enabled/default
 systemctl restart nginx
+
+## Setting password for ghost-mgr user that was removed prviously
+echo "ghost-mgr:${ghost_mgr_pass}" | chpasswd
+
+## Write generated passwords to a file for future reference
+echo -e "root_mysql_pass=${root_mysql_pass}\nghost_mysql_pass=${ghost_mysql_pass}\nghost_mgr_pass=${ghost_mgr_pass}" | tee -a /root/.ghost-installer
+
+cat >> /root/.bashrc <<"EOM"
+
+export TERM=xterm-256color
+
+# Run bootstrap during first login
+
+echo "
+-------------------------------------------------------------------------------
+
+Your ghost instance should be up and running. Relevant auto-generated passwords have been saved to: 
+
+    $(tput setaf 6)root/.ghost-installer$(tput sgr0)
+
+-------------------------------------------------------------------------------
+
+"
+EOM

@@ -16,3 +16,7 @@ resource "ibm_compute_vm_instance" "ghost" {
   tags                 = ["ghost", "${var.datacenter}"]
   ssh_key_ids          = ["${data.ibm_compute_ssh_key.deploymentKey.id}"]
 }
+
+output "Ghost URL" {
+  value = "Please visit http://${ibm_compute_vm_instance.ghost.ipv4_address}/ghost to complete your set up."
+}
