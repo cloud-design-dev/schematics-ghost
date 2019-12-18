@@ -21,7 +21,7 @@ resource "ibm_cis_dns_record" "example" {
   cis_id    = "${data.ibm_cis.cis_instance.id}"
   domain_id = "${data.ibm_cis_domain.cis_instance_domain.id}"
   name      = "${var.hostname}"
-  content   = "${ibm_compute_vm_instance.node.ipv4_address}"
+  content   = "${ibm_compute_vm_instance.ghost.ipv4_address}"
   type      = "A"
 }
 
