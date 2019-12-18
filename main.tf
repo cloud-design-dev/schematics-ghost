@@ -18,7 +18,7 @@ resource "ibm_compute_vm_instance" "ghost" {
 }
 
 resource "ibm_cis_dns_record" "example" {
-  cis_id    = "${data.ibm_cis.instance.id}"
+  cis_id    = "${data.ibm_cis.cis_instance.id}"
   domain_id = "${data.ibm_cis_domain.cis_instance_domain.id}"
   name      = "${var.hostname}"
   content   = "${ibm_compute_vm_instance.node.ipv4_address}"
@@ -26,5 +26,5 @@ resource "ibm_cis_dns_record" "example" {
 }
 
 output "Ghost URL" {
-  value = "Please visit http://${ibm_compute_vm_instance.ghost.ipv4_address}/ghost to complete your set up."
+  value = "Please visit http://${var.hostname}.${var.domain}/ghost to complete your set up."
 }
