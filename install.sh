@@ -61,6 +61,7 @@ echo "ghost-mgr:${ghost_mgr_pass}" | chpasswd
 echo -e "root_mysql_pass=${root_mysql_pass}\nghost_mysql_pass=${ghost_mysql_pass}\nghost_mgr_pass=${ghost_mgr_pass}" | tee -a /root/.ghost-installer
 
 cat >> /etc/update-motd.d/99-ghost-install <<"EOM"
+#!/bin/sh
 export TERM=xterm-256color
 
 echo "

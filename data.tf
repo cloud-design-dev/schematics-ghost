@@ -5,5 +5,10 @@ data "ibm_cis_domain" "cis_instance_domain" {
 
 data "ibm_cis" "cis_instance" {
   name = "cis-rt"
-  resource_group_id = "ac83304b2fb6492e95995812da85b653"
+  resource_group_id = "${data.ibm_resource_group.resource_group.id}"
+}
+
+
+data "ibm_resource_group" "resource_group" {
+  name = "${var.resource_group}"
 }

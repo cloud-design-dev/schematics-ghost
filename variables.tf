@@ -10,6 +10,11 @@ variable "ibmcloud_api_key" {
   description = "Enter your IBM Cloud API Key, you can get your IBM Cloud API key using: https://cloud.ibm.com/iam#/apikeys"
 }
 
+   
+variable "resource_group" {
+  description = "The name of the resource group your Cloud Internet Services offering is deployed in to."
+}
+
 variable datacenter {
   description = "The IBM Cloud datacenter to provision the instance. Full list [here](https://cloud.ibm.com/docs/resources?topic=resources-services_region#iaas-service-infra)"
   type        = "string"
